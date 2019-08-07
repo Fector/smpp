@@ -1,8 +1,8 @@
 package pdu
 
 type Header struct {
-	CommandLength  uint
-	CommandId      uint
-	CommandStatus  uint
-	SequenceNumber uint
+	CommandLength  uint32
+	CommandId      uint32
+	CommandStatus  uint32
+	SequenceNumber uint32
 }
