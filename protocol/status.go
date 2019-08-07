@@ -49,3 +49,5 @@ const EsmeRmissingoptparam = 0x000000C3 // Expected Optional Parameter missing
 const EsmeRinvoptparamval = 0x000000C4  // Invalid Optional Parameter Value
 const EsmeRdeliveryfailure = 0x000000FE // Delivery Failure (data_sm_resp)
 const EsmeRunknownerr = 0x000000FF      // Unknown Error
+
+var Status = map[uint32]string{}
