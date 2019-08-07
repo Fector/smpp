@@ -1,0 +1,1 @@
+# SMPP v 3.4 for Golang
