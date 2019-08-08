@@ -7,8 +7,7 @@ import (
 	"strings"
 )
 
-type Reader struct {
-}
+type Reader struct{}
 
 func (r *Reader) readInt(buffer *bytes.Buffer) (uint32, error) {
 	b := make([]byte, 4)
