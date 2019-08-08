@@ -82,6 +82,24 @@ func (r *Reader) readFixedOctString(buffer *bytes.Buffer, length int) (string, e
 	return builder.String(), nil
 }
 
-func (r *Reader) readString(b *bytes.Buffer) string {
-	return ""
+func (r *Reader) readString(buffer *bytes.Buffer, length int) (string, error) {
+	var builder strings.Builder
+
+	for i := 0; i < length; i++ {
+		b := make([]byte, 1)
+
+		l, err := buffer.Read(b)
+
+		if err != nil {
+			return "", err
+		}
+
+		if l < len(b) {
+			return "", errors.New("Unable to read 1 byte for string builder ")
+		}
+
+		builder.Write(b)
+	}
+
+	return builder.String(), nil
 }
