@@ -4,10 +4,12 @@ import (
 	"bytes"
 	"encoding/binary"
 	"errors"
+	"github.com/DeathHand/smpp/pdu"
 	"strings"
 )
 
-type Reader struct{}
+type Reader struct {
+}
 
 func (r *Reader) readInt(buffer *bytes.Buffer) (uint32, error) {
 	b := make([]byte, 4)
@@ -37,7 +39,7 @@ func (r *Reader) readVarOctString(buffer *bytes.Buffer, length int) (string, err
 
 		l, err := buffer.Read(b)
 
-		if l < 1 {
+		if l < len(b) {
 			return "", errors.New("Unable to read 1 byte for string builder ")
 		}
 
@@ -101,4 +103,41 @@ func (r *Reader) readString(buffer *bytes.Buffer, length int) (string, error) {
 	}
 
 	return builder.String(), nil
+}
+
+func (r *Reader) ReadHeader(buffer *bytes.Buffer) (*pdu.Header, error) {
+	commandLength, err := r.readInt(buffer)
+
+	if err != nil {
+		return nil, err
+	}
+
+	commandId, err := r.readInt(buffer)
+
+	if err != nil {
+		return nil, err
+	}
+
+	commandStatus, err := r.readInt(buffer)
+
+	if err != nil {
+		return nil, err
+	}
+
+	sequenceNumber, err := r.readInt(buffer)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &pdu.Header{
+		CommandLength:  commandLength,
+		CommandId:      commandId,
+		CommandStatus:  commandStatus,
+		SequenceNumber: sequenceNumber,
+	}, nil
+}
+
+func (r *Reader) ReadBody(header pdu.Header, buffer *bytes.Buffer) (*pdu.Body, error) {
+	return nil, nil
 }
