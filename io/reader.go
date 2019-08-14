@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"errors"
 	"github.com/DeathHand/smpp/pdu"
+	"github.com/DeathHand/smpp/protocol"
 	"strings"
 )
 
@@ -139,5 +140,23 @@ func (r *Reader) ReadHeader(buffer *bytes.Buffer) (*pdu.Header, error) {
 }
 
 func (r *Reader) ReadBody(header pdu.Header, buffer *bytes.Buffer) (*pdu.Body, error) {
+	switch header.CommandId {
+	case protocol.BindReceiver:
+	case protocol.BindReceiverResp:
+	case protocol.BindTransmitter:
+	case protocol.BindTransmitterResp:
+	case protocol.BindTransceiver:
+	case protocol.BindTransceiverResp:
+	case protocol.Unbind:
+	case protocol.UnbindResp:
+	case protocol.Outbind:
+	case protocol.GenericNack:
+
+	}
+
 	return nil, nil
+}
+
+func (r *Reader) ReadPdu() (*pdu.Pdu, error) {
+	return &pdu.Pdu{}, nil
 }
