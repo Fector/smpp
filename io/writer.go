@@ -2,6 +2,7 @@ package io
 
 import (
 	"bufio"
+	"github.com/DeathHand/smpp/pdu"
 	"net"
 )
 
@@ -15,14 +16,18 @@ func NewWriter(conn *net.TCPConn) *Writer {
 	}
 }
 
-func (w Writer) writeInt(val uint32) error {
+func (w *Writer) writeInt(val uint32) error {
 	return nil
 }
 
-func (w Writer) writeString(val string) error {
+func (w *Writer) writeString(val string) error {
 	return nil
 }
 
-func (w Writer) writeOctString(val string) error {
+func (w *Writer) writeOctString(val string) error {
 	return nil
+}
+
+func (w *Writer) WritePdu(pdu *pdu.Pdu) (*pdu.Pdu, error) {
+	return pdu, nil
 }
