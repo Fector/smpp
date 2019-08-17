@@ -8,16 +8,27 @@ import (
 	"github.com/DeathHand/smpp/protocol"
 	"net"
 	"strings"
+	"time"
 )
 
 type Reader struct {
+	*net.TCPConn
 	*bufio.Reader
 }
 
 func NewReader(conn *net.TCPConn) *Reader {
 	return &Reader{
-		Reader: bufio.NewReader(conn),
+		TCPConn: conn,
+		Reader:  bufio.NewReader(conn),
 	}
+}
+
+func (r *Reader) SetBufferSize(bytes int) error {
+	return r.TCPConn.SetReadBuffer(bytes)
+}
+
+func (r *Reader) SetTimeout(t time.Time) error {
+	return r.TCPConn.SetReadDeadline(t)
 }
 
 func (r *Reader) readInt() (uint32, error) {
@@ -162,6 +173,7 @@ func (r *Reader) ReadBody(header pdu.Header) (*pdu.Body, error) {
 }
 
 func (r *Reader) ReadPdu() (pdu.Pdu, error) {
+
 	var p pdu.Pdu
 
 	return &p, nil
