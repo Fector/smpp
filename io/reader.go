@@ -162,5 +162,7 @@ func (r *Reader) ReadBody(header pdu.Header) (*pdu.Body, error) {
 }
 
 func (r *Reader) ReadPdu() (*pdu.Pdu, error) {
-	return &pdu.Pdu{}, nil
+	var p pdu.Pdu
+
+	return &p, nil
 }
