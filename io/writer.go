@@ -1,6 +1,18 @@
 package io
 
+import (
+	"bufio"
+	"net"
+)
+
 type Writer struct {
+	*bufio.Writer
+}
+
+func NewWriter(conn *net.TCPConn) *Writer {
+	return &Writer{
+		Writer: bufio.NewWriter(conn),
+	}
 }
 
 func (w Writer) writeInt(val uint32) error {

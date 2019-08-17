@@ -1,27 +1,31 @@
 package io
 
 import (
-	"bytes"
+	"bufio"
 	"encoding/binary"
 	"errors"
 	"github.com/DeathHand/smpp/pdu"
 	"github.com/DeathHand/smpp/protocol"
+	"net"
 	"strings"
 )
 
 type Reader struct {
+	*bufio.Reader
 }
 
-func (r *Reader) readInt(buffer *bytes.Buffer) (uint32, error) {
-	b := make([]byte, 4)
-
-	if buffer.Len() < len(b) {
-		return 0, errors.New("Not enough length for 4-byte int ")
+func NewReader(conn *net.TCPConn) *Reader {
+	return &Reader{
+		Reader: bufio.NewReader(conn),
 	}
+}
 
-	l, err := buffer.Read(b)
+func (r *Reader) readInt() (uint32, error) {
+	p := make([]byte, 4)
 
-	if l < len(b) {
+	l, err := r.Read(p)
+
+	if l < len(p) {
 		return 0, errors.New("Unable to read 4 bytes for int ")
 	}
 
@@ -29,18 +33,18 @@ func (r *Reader) readInt(buffer *bytes.Buffer) (uint32, error) {
 		return 0, err
 	}
 
-	return binary.BigEndian.Uint32(b), nil
+	return binary.BigEndian.Uint32(p), nil
 }
 
-func (r *Reader) readVarOctString(buffer *bytes.Buffer, length int) (string, error) {
+func (r *Reader) readVarOctString(length int) (string, error) {
 	var builder strings.Builder
 
 	for i := 0; i < length; i++ {
-		b := make([]byte, 1)
+		p := make([]byte, 1)
 
-		l, err := buffer.Read(b)
+		l, err := r.Read(p)
 
-		if l < len(b) {
+		if l < len(p) {
 			return "", errors.New("Unable to read 1 byte for string builder ")
 		}
 
@@ -48,35 +52,35 @@ func (r *Reader) readVarOctString(buffer *bytes.Buffer, length int) (string, err
 			return "", err
 		}
 
-		if b[0] == 0 {
+		if p[0] == 0 {
 			break
 		}
 
-		builder.Write(b)
+		builder.Write(p)
 	}
 
 	return builder.String(), nil
 }
 
-func (r *Reader) readFixedOctString(buffer *bytes.Buffer, length int) (string, error) {
+func (r *Reader) readFixedOctString(length int) (string, error) {
 	var builder strings.Builder
 
 	for i := 0; i < length; i++ {
-		b := make([]byte, 1)
+		p := make([]byte, 1)
 
-		l, err := buffer.Read(b)
+		l, err := r.Read(p)
 
 		if err != nil {
 			return "", err
 		}
 
-		if l < len(b) {
+		if l < len(p) {
 			return "", errors.New("Unable to read 1 byte for string builder ")
 		}
 
-		builder.Write(b)
+		builder.Write(p)
 
-		if b[0] == 0 {
+		if p[0] == 0 {
 			break
 		}
 	}
@@ -84,48 +88,48 @@ func (r *Reader) readFixedOctString(buffer *bytes.Buffer, length int) (string, e
 	return builder.String(), nil
 }
 
-func (r *Reader) readString(buffer *bytes.Buffer, length int) (string, error) {
+func (r *Reader) readString(length int) (string, error) {
 	var builder strings.Builder
 
 	for i := 0; i < length; i++ {
-		b := make([]byte, 1)
+		p := make([]byte, 1)
 
-		l, err := buffer.Read(b)
+		l, err := r.Read(p)
 
 		if err != nil {
 			return "", err
 		}
 
-		if l < len(b) {
+		if l < len(p) {
 			return "", errors.New("Unable to read 1 byte for string builder ")
 		}
 
-		builder.Write(b)
+		builder.Write(p)
 	}
 
 	return builder.String(), nil
 }
 
-func (r *Reader) ReadHeader(buffer *bytes.Buffer) (*pdu.Header, error) {
-	commandLength, err := r.readInt(buffer)
+func (r *Reader) ReadHeader() (*pdu.Header, error) {
+	commandLength, err := r.readInt()
 
 	if err != nil {
 		return nil, err
 	}
 
-	commandId, err := r.readInt(buffer)
+	commandId, err := r.readInt()
 
 	if err != nil {
 		return nil, err
 	}
 
-	commandStatus, err := r.readInt(buffer)
+	commandStatus, err := r.readInt()
 
 	if err != nil {
 		return nil, err
 	}
 
-	sequenceNumber, err := r.readInt(buffer)
+	sequenceNumber, err := r.readInt()
 
 	if err != nil {
 		return nil, err
@@ -139,7 +143,7 @@ func (r *Reader) ReadHeader(buffer *bytes.Buffer) (*pdu.Header, error) {
 	}, nil
 }
 
-func (r *Reader) ReadBody(header pdu.Header, buffer *bytes.Buffer) (*pdu.Body, error) {
+func (r *Reader) ReadBody(header pdu.Header) (*pdu.Body, error) {
 	switch header.CommandId {
 	case protocol.BindReceiver:
 	case protocol.BindReceiverResp:
