@@ -2,73 +2,73 @@ package protocol
 
 // Command ids - SMPP v3.4 - 5.1.2.1 page 110-111
 
-// GenericNack PDU header command_id
+// GenericNack is a GenericNack PDU header command_id
 const GenericNack uint32 = 0x80000000
 
-// BindReceiver PDU header command_id
+// BindReceiver is a BindReceiver PDU header command_id
 const BindReceiver uint32 = 0x00000001
 
-// BindReceiverResp PDU header command_id
+// BindReceiverResp is a BindReceiverResp PDU header command_id
 const BindReceiverResp uint32 = 0x80000001
 
-// BindTransmitter PDU header command_id
+// BindTransmitter is a BindTransmitter PDU header command_id
 const BindTransmitter uint32 = 0x00000002
 
-// BindTransmitterResp PDU header command_id
+// BindTransmitterResp is a BindTransmitterResp PDU header command_id
 const BindTransmitterResp uint32 = 0x80000002
 
-// QuerySm PDU header command_id
+// QuerySm is a QuerySm PDU header command_id
 const QuerySm uint32 = 0x00000003
 
-// QuerySmResp PDU header command_id
+// QuerySmResp is a QuerySmResp PDU header command_id
 const QuerySmResp uint32 = 0x80000003
 
-// SubmitSm PDU header command_id
+// SubmitSm is a SubmitSm PDU header command_id
 const SubmitSm uint32 = 0x00000004
 
-// SubmitSmResp PDU header command_id
+// SubmitSmResp is a SubmitSmResp PDU header command_id
 const SubmitSmResp uint32 = 0x80000004
 
-// DeliverSm PDU header command_id
+// DeliverSm is a DeliverSm PDU header command_id
 const DeliverSm uint32 = 0x00000005
 
-// DeliverSmResp PDU header command_id
+// DeliverSmResp is a DeliverSmResp PDU header command_id
 const DeliverSmResp uint32 = 0x80000005
 
-// Unbind PDU header command_id
+// Unbind is a unbind PDU header command_id
 const Unbind uint32 = 0x00000006
 
 // UnbindResp PDU header command_id
 const UnbindResp uint32 = 0x80000006
 
-// ReplaceSm PDU header command_id
+// ReplaceSm is a ReplaceSm PDU header command_id
 const ReplaceSm uint32 = 0x00000007
 
-// ReplaceSmResp PDU header command_id
+// ReplaceSmResp is a ReplaceSmResp PDU header command_id
 const ReplaceSmResp uint32 = 0x80000007
 
-// CancelSm PDU header command_id
+// CancelSm is a CancelSm PDU header command_id
 const CancelSm uint32 = 0x00000008
 
-// CancelSmResp PDU header command_id
+// CancelSmResp is a CancelSmResp PDU header command_id
 const CancelSmResp uint32 = 0x80000008
 
-// BindTransceiver PDU header command_id
+// BindTransceiver is a BindTransceiver PDU header command_id
 const BindTransceiver uint32 = 0x00000009
 
-// BindTransceiverResp PDU header command_id
+// BindTransceiverResp is a BindTransceiverResp PDU header command_id
 const BindTransceiverResp uint32 = 0x80000009
 
-// Outbind PDU header command_id
+// Outbind is a Outbind PDU header command_id
 const Outbind uint32 = 0x0000000B
 
-// EnquireLink PDU header command_id
+// EnquireLink is a EnquireLink PDU header command_id
 const EnquireLink uint32 = 0x00000015
 
-// EnquireLinkResp PDU header command_id
+// EnquireLinkResp is a EnquireLinkResp PDU header command_id
 const EnquireLinkResp uint32 = 0x80000015
 
-// Command name map
+// Command is command names map
 var Command = map[uint32]string{
 	GenericNack:         "GENERIC_NACK",
 	BindReceiver:        "BIND_RECEIVER",
@@ -94,7 +94,7 @@ var Command = map[uint32]string{
 	EnquireLinkResp:     "ENQUIRE_LINK_RESP",
 }
 
-// Returns name of command
+// GetCommandName is a function to get command name by id
 func GetCommandName(command uint32) string {
 	if Command[command] == "" {
 		return "UNKNOWN"
