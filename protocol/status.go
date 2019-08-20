@@ -4,7 +4,7 @@ import "fmt"
 
 //  Command status - SMPP v3.4 - 5.1.3 page 112-114
 
-// No Error
+// EsmeRok is "No Error" code
 const EsmeRok uint32 = 0x00000000
 
 // EsmeRinvmsglen is a "Message Length is invalid" error code
@@ -67,7 +67,7 @@ const EsmeRinvnumdests uint32 = 0x00000033
 // EsmeRinvdlname is a "Invalid Distribution List name" error code
 const EsmeRinvdlname uint32 = 0x00000034
 
-// Destination flag (submit_multi)
+// EsmeRinvdestflag is a "Destination flag (submit_multi)" error code
 const EsmeRinvdestflag uint32 = 0x00000040
 
 // EsmeRinvsubrep is a "Invalid ‘submit with replace’ request" error code
