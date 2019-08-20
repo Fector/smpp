@@ -68,6 +68,7 @@ const EnquireLink uint32 = 0x00000015
 // EnquireLinkResp PDU header command_id
 const EnquireLinkResp uint32 = 0x80000015
 
+// Command name map
 var Command = map[uint32]string{
 	GenericNack:         "GENERIC_NACK",
 	BindReceiver:        "BIND_RECEIVER",
@@ -93,7 +94,7 @@ var Command = map[uint32]string{
 	EnquireLinkResp:     "ENQUIRE_LINK_RESP",
 }
 
-// GetCommandName returns name of command
+// Returns name of command
 func GetCommandName(command uint32) string {
 	if Command[command] == "" {
 		return "UNKNOWN"
