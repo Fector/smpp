@@ -7,148 +7,148 @@ import "fmt"
 // No Error
 const EsmeRok uint32 = 0x00000000
 
-// Message Length is invalid
+// EsmeRinvmsglen is a "Message Length is invalid" error code
 const EsmeRinvmsglen uint32 = 0x00000001
 
-// Command Length is invalid
+// EsmeRinvcmdlen is a "Command Length is invalid" error code
 const EsmeRinvcmdlen uint32 = 0x00000002
 
-// Invalid Command ID
+// EsmeRinvcmdid is a "Invalid Command ID" error code
 const EsmeRinvcmdid uint32 = 0x00000003
 
-// Incorrect BIND Status for given command
+// EsmeRinvbndsts is a "Incorrect BIND Status for given command" error code
 const EsmeRinvbndsts uint32 = 0x00000004
 
-// ESME Already in Bound State
+// EsmeRalybnd is a "ESME Already in Bound State" error code
 const EsmeRalybnd uint32 = 0x00000005
 
-// Invalid Priority Flag
+// EsmeRinvprtflg is a "Invalid Priority Flag" error code
 const EsmeRinvprtflg uint32 = 0x00000006
 
-// Invalid Registered Delivery Flag
+// EsmeRinvregdlvflg is a "Invalid Registered Delivery Flag" error code
 const EsmeRinvregdlvflg uint32 = 0x00000007
 
-// System Error
+// EsmeRsyserr is a "System Error" code
 const EsmeRsyserr uint32 = 0x00000008
 
-// Invalid Source Address
+// EsmeRinvsrcadr is a "Invalid Source Address" error code
 const EsmeRinvsrcadr uint32 = 0x0000000A
 
-// Invalid Dest Addr
+// EsmeRinvdstadr is a "Invalid Dest Addr" error code
 const EsmeRinvdstadr uint32 = 0x0000000B
 
-// Message ID is invalid
+// EsmeRinvmsgid is a "Message ID is invalid" error code
 const EsmeRinvmsgid uint32 = 0x0000000C
 
-// Bind Failed
+// EsmeRbindfail is a "Bind Failed" error code
 const EsmeRbindfail uint32 = 0x0000000D
 
-// Invalid Password
+// EsmeRinvpaswd is a "Invalid Password" error code
 const EsmeRinvpaswd uint32 = 0x0000000E
 
-// Invalid System ID
+// EsmeRinvsysid is a "Invalid System ID" error code
 const EsmeRinvsysid uint32 = 0x0000000F
 
-// Cancel SM Failed
+// EsmeRcancelfail is a "Cancel SM Failed" error code
 const EsmeRcancelfail uint32 = 0x00000011
 
-// Replace SM Failed
+// EsmeRreplacefail is a "Replace SM Failed" error code
 const EsmeRreplacefail uint32 = 0x00000013
 
-// Message Queue Full
+// EsmeRmsgqful is a "Message Queue Full" error code
 const EsmeRmsgqful uint32 = 0x00000014
 
-// Invalid Service Type
+// EsmeRinvsertyp is a "Invalid Service Type" error code
 const EsmeRinvsertyp uint32 = 0x00000015
 
-// Invalid number of destinations
+// EsmeRinvnumdests is a "Invalid number of destinations" error code
 const EsmeRinvnumdests uint32 = 0x00000033
 
-// Invalid Distribution List name
+// EsmeRinvdlname is a "Invalid Distribution List name" error code
 const EsmeRinvdlname uint32 = 0x00000034
 
 // Destination flag (submit_multi)
 const EsmeRinvdestflag uint32 = 0x00000040
 
-// Invalid ‘submit with replace’ request
+// EsmeRinvsubrep is a "Invalid ‘submit with replace’ request" error code
 const EsmeRinvsubrep uint32 = 0x00000042
 
-// Invalid esm_SUBMIT field data
+// EsmeRinvesmsubmit is a "Invalid esm_SUBMIT field data" error code
 const EsmeRinvesmsubmit uint32 = 0x00000043
 
-// Cannot Submit to Distribution List
+// EsmeRcntsubdl is a "Cannot Submit to Distribution List" error code
 const EsmeRcntsubdl uint32 = 0x00000044
 
-// submit_sm or submit_multi failed
+// EsmeRsubmitfail is a "submit_sm or submit_multi failed" error code
 const EsmeRsubmitfail uint32 = 0x00000045
 
-// Invalid Source address TON
+// EsmeRinvsrcton is a "Invalid Source address TON" error code
 const EsmeRinvsrcton uint32 = 0x00000048
 
-// Invalid Source address NPI
+// EsmeRinvsrcnpi is a "Invalid Source address NPI" error code
 const EsmeRinvsrcnpi uint32 = 0x00000049
 
-// Invalid Destination address TON
+// EsmeRinvdstton is a "Invalid Destination address TON" error code
 const EsmeRinvdstton uint32 = 0x00000050
 
-// Invalid Destination address NPI
+// EsmeRinvdstnpi is a "Invalid Destination address NPI" error code
 const EsmeRinvdstnpi uint32 = 0x00000051
 
-// Invalid system_type field
+// EsmeRinvsystyp is a "Invalid system_type field" error code
 const EsmeRinvsystyp uint32 = 0x00000053
 
-// Invalid replace_if_present flag
+// EsmeRinvrepflag is a "Invalid replace_if_present flag" error code
 const EsmeRinvrepflag uint32 = 0x00000054
 
-// Invalid number of messages
+// EsmeRinvnummsgs is a "Invalid number of messages" error code
 const EsmeRinvnummsgs uint32 = 0x00000055
 
-// Throttling error (ESME has exceeded allowed message limits)
+// EsmeRthrottled is a "Throttling error (ESME has exceeded allowed message limits)" error code
 const EsmeRthrottled uint32 = 0x00000058
 
-// Invalid Scheduled Delivery Time
+// EsmeRinvsched is a "Invalid Scheduled Delivery Time" error code
 const EsmeRinvsched uint32 = 0x00000061
 
-// Invalid message (Expiry time)
+// EsmeRinvexpiry is a "Invalid message (Expiry time)" error code
 const EsmeRinvexpiry uint32 = 0x00000062
 
-// Predefined Message Invalid or Not Found
+// EsmeRinvdftmsgid is a "Predefined Message Invalid or Not Found" error code
 const EsmeRinvdftmsgid uint32 = 0x00000063
 
-// ESME Receiver Temporary App Error Code
+// EsmeRxTAppn is a "ESME Receiver Temporary App Error Code"
 const EsmeRxTAppn uint32 = 0x00000064
 
-// ESME Receiver Permanent App Error Code
+// EsmeRxPAppn is a "ESME Receiver Permanent App Error Code"
 const EsmeRxPAppn uint32 = 0x00000065
 
-// ESME Receiver Reject Message Error Code
+// EsmeRxRAppn is a "ESME Receiver Reject Message Error Code"
 const EsmeRxRAppn uint32 = 0x00000066
 
-// query_sm request failed
+// EsmeRqueryfail is a "query_sm request failed" error code
 const EsmeRqueryfail uint32 = 0x00000067
 
-// Error in the optional part of the PDU Body
+// EsmeRinvoptparstream is a "Error in the optional part of the PDU Body"
 const EsmeRinvoptparstream uint32 = 0x000000C0
 
-// Optional Parameter not allowed
+// EsmeRoptparnotallwd is a "Optional Parameter not allowed" error code
 const EsmeRoptparnotallwd uint32 = 0x000000C1
 
-// Invalid Parameter Length
+// EsmeRinvparlen is a "Invalid Parameter Length" error code
 const EsmeRinvparlen uint32 = 0x000000C2
 
-// Expected Optional Parameter missing
+// EsmeRmissingoptparam is a "Expected Optional Parameter missing" error code
 const EsmeRmissingoptparam uint32 = 0x000000C3
 
-// Invalid Optional Parameter Value
+// EsmeRinvoptparamval is a "Invalid Optional Parameter Value" error code
 const EsmeRinvoptparamval uint32 = 0x000000C4
 
-// Delivery Failure (data_sm_resp)
+// EsmeRdeliveryfailure is a "Delivery Failure (data_sm_resp)" error code
 const EsmeRdeliveryfailure uint32 = 0x000000FE
 
-// Unknown Error
+// EsmeRunknownerr is a "Unknown Error" code
 const EsmeRunknownerr uint32 = 0x000000FF
 
-// Status names map
+// Status is status names map
 var Status = map[uint32]string{
 	EsmeRok:              "No Error",
 	EsmeRinvmsglen:       "Message Length is invalid",
@@ -200,7 +200,7 @@ var Status = map[uint32]string{
 	EsmeRunknownerr:      "Unknown Error",
 }
 
-// Return name of status
+// GetStatusName is a function to get command status by id
 func GetStatusName(status uint32) string {
 	if Status[status] == "" {
 		return fmt.Sprintf("Specific status code %x", status)
