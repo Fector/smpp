@@ -1,11 +1,11 @@
-package io
+package protocol
 
 import (
 	"bufio"
 	"encoding/binary"
 	"errors"
 	"github.com/DeathHand/smpp/pdu"
-	"github.com/DeathHand/smpp/protocol"
+	"io"
 	"net"
 	"strings"
 	"time"
@@ -32,11 +32,11 @@ func (r *Reader) SetTimeout(t time.Time) error {
 }
 
 func (r *Reader) readInt() (uint32, error) {
-	p := make([]byte, 4)
+	b := make([]byte, 4)
 
-	l, err := r.Read(p)
+	l, err := io.ReadFull(r, b)
 
-	if l < len(p) {
+	if l < len(b) {
 		return 0, errors.New("Unable to read 4 bytes for int ")
 	}
 
@@ -44,18 +44,18 @@ func (r *Reader) readInt() (uint32, error) {
 		return 0, err
 	}
 
-	return binary.BigEndian.Uint32(p), nil
+	return binary.BigEndian.Uint32(b), nil
 }
 
 func (r *Reader) readVarOctString(length int) (string, error) {
 	var builder strings.Builder
 
 	for i := 0; i < length; i++ {
-		p := make([]byte, 1)
+		b := make([]byte, 1)
 
-		l, err := r.Read(p)
+		l, err := io.ReadFull(r, b)
 
-		if l < len(p) {
+		if l < len(b) {
 			return "", errors.New("Unable to read 1 byte for string builder ")
 		}
 
@@ -63,11 +63,11 @@ func (r *Reader) readVarOctString(length int) (string, error) {
 			return "", err
 		}
 
-		if p[0] == 0 {
+		if b[0] == 0 {
 			break
 		}
 
-		builder.Write(p)
+		builder.Write(b)
 	}
 
 	return builder.String(), nil
@@ -77,21 +77,21 @@ func (r *Reader) readFixedOctString(length int) (string, error) {
 	var builder strings.Builder
 
 	for i := 0; i < length; i++ {
-		p := make([]byte, 1)
+		b := make([]byte, 1)
 
-		l, err := r.Read(p)
+		l, err := io.ReadFull(r, b)
 
 		if err != nil {
 			return "", err
 		}
 
-		if l < len(p) {
+		if l < len(b) {
 			return "", errors.New("Unable to read 1 byte for string builder ")
 		}
 
-		builder.Write(p)
+		builder.Write(b)
 
-		if p[0] == 0 {
+		if b[0] == 0 {
 			break
 		}
 	}
@@ -103,19 +103,19 @@ func (r *Reader) readString(length int) (string, error) {
 	var builder strings.Builder
 
 	for i := 0; i < length; i++ {
-		p := make([]byte, 1)
+		b := make([]byte, 1)
 
-		l, err := r.Read(p)
+		l, err := io.ReadFull(r, b)
 
 		if err != nil {
 			return "", err
 		}
 
-		if l < len(p) {
+		if l < len(b) {
 			return "", errors.New("Unable to read 1 byte for string builder ")
 		}
 
-		builder.Write(p)
+		builder.Write(b)
 	}
 
 	return builder.String(), nil
@@ -156,16 +156,16 @@ func (r *Reader) ReadHeader() (*pdu.Header, error) {
 
 func (r *Reader) ReadBody(header pdu.Header) (*pdu.Body, error) {
 	switch header.CommandId {
-	case protocol.BindReceiver:
-	case protocol.BindReceiverResp:
-	case protocol.BindTransmitter:
-	case protocol.BindTransmitterResp:
-	case protocol.BindTransceiver:
-	case protocol.BindTransceiverResp:
-	case protocol.Unbind:
-	case protocol.UnbindResp:
-	case protocol.Outbind:
-	case protocol.GenericNack:
+	case BindReceiver:
+	case BindReceiverResp:
+	case BindTransmitter:
+	case BindTransmitterResp:
+	case BindTransceiver:
+	case BindTransceiverResp:
+	case Unbind:
+	case UnbindResp:
+	case Outbind:
+	case GenericNack:
 
 	}
 
