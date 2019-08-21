@@ -9,8 +9,13 @@ const PduHeaderLength uint32 = 16
 const ProtocolId uint32 = 0x34
 
 // SMPP v3.4 bind mode short names
+// BindModeTX is a Transmitter bind mode
 const BindModeTX string = "TX"
+
+// BindModeRX is a Receiver bind mode
 const BindModeRX string = "RX"
+
+// BindModeTRX is transceiver bind mode
 const BindModeTRX string = "TRX"
 
 // Command ids - SMPP v3.4 - 5.1.2.1 page 110-111
@@ -41,6 +46,12 @@ const SubmitSm uint32 = 0x00000004
 
 // SubmitSmResp is a SubmitSmResp PDU header command_id
 const SubmitSmResp uint32 = 0x80000004
+
+// DataSm is a DataSm PDU header command_id
+const DataSm uint32 = 0x00000103
+
+// DataSm is a DataSm PDU header command_id
+const DataSmResp uint32 = 0x80000103
 
 // DeliverSm is a DeliverSm PDU header command_id
 const DeliverSm uint32 = 0x00000005
@@ -92,6 +103,8 @@ var Command = map[uint32]string{
 	QuerySmResp:         "QUERY_SM_RESP",
 	SubmitSm:            "SUBMIT_SM",
 	SubmitSmResp:        "SUBMIT_SM_RESP",
+	DataSm:              "DATA_SM",
+	DataSmResp:          "DATA_SM_RESP",
 	DeliverSm:           "DELIVER_SM",
 	DeliverSmResp:       "DELIVER_SM_RESP",
 	Unbind:              "UNBIND",
@@ -114,6 +127,30 @@ func GetCommandName(command uint32) string {
 	}
 
 	return Command[command]
+}
+
+// BindCommand is a bind command map
+var BindCommand = map[uint32]bool{
+	BindReceiver:    true,
+	BindTransmitter: true,
+	BindTransceiver: true,
+}
+
+// IsBindOperation is a function to determine bind command
+func IsBindOperation(command uint32) bool {
+	return BindCommand[command]
+}
+
+// SmCommand is a short-message command map
+var SmCommand = map[uint32]bool{
+	SubmitSm:  true,
+	DeliverSm: true,
+	DataSm:    true,
+}
+
+// IsSmCommand is a function to determine bind command
+func IsSmCommand(command uint32) bool {
+	return SmCommand[command]
 }
 
 //  Command status - SMPP v3.4 - 5.1.3 page 112-114

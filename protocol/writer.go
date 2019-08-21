@@ -1,7 +1,6 @@
 package protocol
 
 import (
-	"bufio"
 	"github.com/DeathHand/smpp/pdu"
 	"net"
 	"time"
@@ -9,13 +8,10 @@ import (
 
 type Writer struct {
 	*net.TCPConn
-	*bufio.Writer
 }
 
 func NewWriter(conn *net.TCPConn) *Writer {
-	return &Writer{
-		Writer: bufio.NewWriter(conn),
-	}
+	return &Writer{TCPConn: conn}
 }
 
 func (w *Writer) SetBufferSize(bytes int) error {

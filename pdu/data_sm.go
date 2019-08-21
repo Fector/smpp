@@ -1,6 +1,6 @@
 package pdu
 
-type DeliverSm struct {
+type DataSm struct {
 	Header *Header
 	Body   *SmBody
 	Tlv    *[]Tlv
