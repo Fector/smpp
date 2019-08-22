@@ -31,107 +31,79 @@ func (r *Reader) SetTimeout(t time.Time) error {
 // readInt reads 4-byte Integer
 func (r *Reader) readInt(buffer *bytes.Buffer) (uint32, error) {
 	p := make([]byte, 4)
-
 	_, err := buffer.Read(p)
-
 	if err != nil {
 		return 0, nil
 	}
-
 	return binary.BigEndian.Uint32(p), nil
 }
 
 // readVarOctString reads various length C-octet string
 func (r *Reader) readVarOctString(length int, buffer *bytes.Buffer) (string, error) {
 	var builder strings.Builder
-
 	p := make([]byte, 1)
-
 	for i := 0; i < length; i++ {
 		_, err := buffer.Read(p)
-
 		if err != nil {
 			return "", err
 		}
-
 		if p[0] == 0 {
 			break
 		}
-
 		builder.Write(p)
 	}
-
 	return builder.String(), nil
 }
 
 // readFixedOctString reads fixed length C-octet string
 func (r *Reader) readFixedOctString(length int, buffer *bytes.Buffer) (string, error) {
 	var builder strings.Builder
-
 	p := make([]byte, 1)
-
 	for i := 0; i < length; i++ {
 		_, err := buffer.Read(p)
-
 		if err != nil {
 			return "", err
 		}
-
 		builder.Write(p)
-
 		if p[0] == 0 {
 			break
 		}
 	}
-
 	return builder.String(), nil
 }
 
 // readString reads fixed length string
 func (r *Reader) readString(length int, buffer *bytes.Buffer) (string, error) {
 	var builder strings.Builder
-
 	p := make([]byte, 1)
-
 	for i := 0; i < length; i++ {
 		_, err := buffer.Read(p)
-
 		if err != nil {
 			return "", err
 		}
-
 		builder.Write(p)
 	}
-
 	return builder.String(), nil
 }
 
 // readHeader reads PDU header struct from buffer
 func (r *Reader) readHeader(buffer *bytes.Buffer) (*pdu.Header, error) {
 	commandLength, err := r.readInt(buffer)
-
 	if err != nil {
 		return nil, err
 	}
-
 	commandId, err := r.readInt(buffer)
-
 	if err != nil {
 		return nil, err
 	}
-
 	commandStatus, err := r.readInt(buffer)
-
 	if err != nil {
 		return nil, err
 	}
-
 	sequenceNumber, err := r.readInt(buffer)
-
 	if err != nil {
 		return nil, err
 	}
-
 	return &pdu.Header{
 		CommandLength:  commandLength,
 		CommandId:      commandId,
