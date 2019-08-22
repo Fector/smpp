@@ -161,62 +161,40 @@ func (r *Reader) readSmRespBody(buffer *bytes.Buffer) (*pdu.SmRespBody, error) {
 }
 
 // ReadPduBuffer is a PDU packet reader
-func (r *Reader) ReadPduBuffer() (*bytes.Buffer, error) {
-	var buffer bytes.Buffer
-
+func (r *Reader) ReadPacket() (*[]byte, error) {
+	var packet []byte
 	p := make([]byte, 4)
-
 	n, err := io.ReadFull(r, p)
-
 	if n < len(p) {
 		return nil, err
 	}
-
-	n, err = buffer.Write(p)
-
-	if err != nil {
-		return nil, err
-	}
-
+	packet = append(packet, p...)
 	p = make([]byte, binary.BigEndian.Uint32(p)-4)
-
 	n, err = io.ReadFull(r, p)
-
 	if n < len(p) {
 		return nil, err
 	}
-
-	n, err = buffer.Write(p)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return &buffer, nil
+	packet = append(packet, p...)
+	return &packet, nil
 }
 
 // ReadPdu is a PDU buffer reader to PDU struct
-func (r *Reader) ReadPdu(buffer *bytes.Buffer) (pdu.Pdu, error) {
+func (r *Reader) ReadPdu(packet *[]byte) (pdu.Pdu, error) {
+	buffer := bytes.NewBuffer(*packet)
 	header, err := r.readHeader(buffer)
-
 	if err != nil {
 		return nil, err
 	}
-
 	switch header.CommandId {
 	case SubmitSm:
 		body, err := r.readSmBody(buffer)
-
 		if err != nil {
 			return nil, err
 		}
-
 		tlv, err := r.readTlv(buffer)
-
 		if err != nil {
 			return nil, err
 		}
-
 		return &pdu.SubmitSm{
 			Header: header,
 			Body:   body,
@@ -224,17 +202,13 @@ func (r *Reader) ReadPdu(buffer *bytes.Buffer) (pdu.Pdu, error) {
 		}, nil
 	case DeliverSm:
 		body, err := r.readSmBody(buffer)
-
 		if err != nil {
 			return nil, err
 		}
-
 		tlv, err := r.readTlv(buffer)
-
 		if err != nil {
 			return nil, err
 		}
-
 		return &pdu.DeliverSm{
 			Header: header,
 			Body:   body,
@@ -242,28 +216,22 @@ func (r *Reader) ReadPdu(buffer *bytes.Buffer) (pdu.Pdu, error) {
 		}, nil
 	case SubmitSmResp:
 		body, err := r.readSmRespBody(buffer)
-
 		if err != nil {
 			return nil, err
 		}
-
 		return &pdu.SubmitSmResp{
 			Header: header,
 			Body:   body,
 		}, nil
 	case DataSm:
 		body, err := r.readSmBody(buffer)
-
 		if err != nil {
 			return nil, err
 		}
-
 		tlv, err := r.readTlv(buffer)
-
 		if err != nil {
 			return nil, err
 		}
-
 		return &pdu.DataSm{
 			Header: header,
 			Body:   body,
@@ -271,17 +239,13 @@ func (r *Reader) ReadPdu(buffer *bytes.Buffer) (pdu.Pdu, error) {
 		}, nil
 	case BindReceiver:
 		body, err := r.readBindBody(buffer)
-
 		if err != nil {
 			return nil, err
 		}
-
 		tlv, err := r.readTlv(buffer)
-
 		if err != nil {
 			return nil, err
 		}
-
 		return &pdu.BindReceiver{
 			Header: header,
 			Body:   body,
@@ -289,17 +253,13 @@ func (r *Reader) ReadPdu(buffer *bytes.Buffer) (pdu.Pdu, error) {
 		}, nil
 	case BindTransmitter:
 		body, err := r.readBindBody(buffer)
-
 		if err != nil {
 			return nil, err
 		}
-
 		tlv, err := r.readTlv(buffer)
-
 		if err != nil {
 			return nil, err
 		}
-
 		return &pdu.BindTransmitter{
 			Header: header,
 			Body:   body,
@@ -307,23 +267,18 @@ func (r *Reader) ReadPdu(buffer *bytes.Buffer) (pdu.Pdu, error) {
 		}, nil
 	case BindTransceiver:
 		body, err := r.readBindBody(buffer)
-
 		if err != nil {
 			return nil, err
 		}
-
 		tlv, err := r.readTlv(buffer)
-
 		if err != nil {
 			return nil, err
 		}
-
 		return &pdu.BindTransceiver{
 			Header: header,
 			Body:   body,
 			Tlv:    tlv,
 		}, nil
 	}
-
 	return nil, errors.New(fmt.Sprintf("Unknown command %x", header.CommandId))
 }
