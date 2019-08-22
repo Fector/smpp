@@ -69,7 +69,7 @@ func (w *Writer) WritePdu(packet pdu.Pdu) (pdu.Pdu, error) {
 		}
 		p.Header.CommandLength += uint32(n)
 		n, err = w.Write(buffer.Bytes())
-		if err != nil {
+		if uint32(n) != p.Header.CommandLength {
 			return nil, err
 		}
 		return &p, nil
