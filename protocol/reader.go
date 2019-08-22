@@ -1,6 +1,7 @@
 package protocol
 
 import (
+	"bufio"
 	"bytes"
 	"encoding/binary"
 	"errors"
@@ -9,23 +10,16 @@ import (
 	"io"
 	"net"
 	"strings"
-	"time"
 )
 
+// Reader is a SMPP v3.4 protocol packet reader
 type Reader struct {
-	*net.TCPConn
+	*bufio.Reader
 }
 
+// NewReader creates new Reader
 func NewReader(conn *net.TCPConn) *Reader {
-	return &Reader{TCPConn: conn}
-}
-
-func (r *Reader) SetBufferSize(bytes int) error {
-	return r.TCPConn.SetReadBuffer(bytes)
-}
-
-func (r *Reader) SetTimeout(t time.Time) error {
-	return r.TCPConn.SetReadDeadline(t)
+	return &Reader{Reader: bufio.NewReader(conn)}
 }
 
 // readInt reads 4-byte Integer
@@ -112,6 +106,7 @@ func (r *Reader) readHeader(buffer *bytes.Buffer) (*pdu.Header, error) {
 	}, nil
 }
 
+// readTlv reads Tlv tags
 func (r *Reader) readTlv(buffer *bytes.Buffer) (*[]pdu.Tlv, error) {
 	if buffer.Len() == 0 {
 		return nil, nil
@@ -120,14 +115,17 @@ func (r *Reader) readTlv(buffer *bytes.Buffer) (*[]pdu.Tlv, error) {
 	return nil, nil
 }
 
+// readBindBody reads bind body for bind operations
 func (r *Reader) readBindBody(buffer *bytes.Buffer) (*pdu.BindBody, error) {
 	return nil, nil
 }
 
+// readSmBody reads short message body
 func (r *Reader) readSmBody(buffer *bytes.Buffer) (*pdu.SmBody, error) {
 	return nil, nil
 }
 
+// readSmRespBody reads sm operations response body
 func (r *Reader) readSmRespBody(buffer *bytes.Buffer) (*pdu.SmRespBody, error) {
 	return nil, nil
 }
