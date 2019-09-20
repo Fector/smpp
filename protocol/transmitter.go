@@ -6,14 +6,14 @@ import (
 )
 
 type Transmitter struct {
-	writer *Writer
-	t      *chan pdu.Pdu
+	W *Writer
+	P *chan pdu.Pdu
 }
 
 func NewTransmitter(c *net.TCPConn, t *chan pdu.Pdu) *Transmitter {
 	return &Transmitter{
-		writer: NewWriter(c),
-		t:      t,
+		W: NewWriter(c),
+		P: t,
 	}
 }
 

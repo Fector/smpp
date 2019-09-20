@@ -6,14 +6,14 @@ import (
 )
 
 type Receiver struct {
-	reader *Reader
-	r      *chan pdu.Pdu
+	R *Reader
+	P *chan pdu.Pdu
 }
 
 func NewReceiver(c *net.TCPConn, r *chan pdu.Pdu) *Receiver {
 	return &Receiver{
-		reader: NewReader(c),
-		r:      r,
+		R: NewReader(c),
+		P: r,
 	}
 }
 
